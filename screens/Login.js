@@ -86,7 +86,7 @@ export default class App extends Component {
                                 this.setState({
                                   isLoggingin: true
                                 });
-                                axios.post('http://192.168.0.136:9001/api/login', {
+                                axios.post('http://192.168.0.100:9001/api/login', {
                                   email: this.state.email,
                                   password: this.state.password
                                 }).then( async () => {
