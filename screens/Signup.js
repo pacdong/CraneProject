@@ -118,7 +118,7 @@ export default class Signup extends Component {
                     console.log(`message:` + res.data.message);
                     alert(res.data.message);
                     this.setState({isLoggingin: false});
-                    this.props.navigation.navigatoe('Login');
+                    this.props.navigation.navigator('Login');
                   }).catch ((err) => {
                     console.log(err);
                   }

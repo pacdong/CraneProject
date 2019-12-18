@@ -12,11 +12,13 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
+import { Facebook } from "expo";
 
 import TextInput from './shared/TextInput';
 import Button from './shared/Button';
+import FacebookLogin from './shared/FacebookLogin';
 
-import { LOGO } from '../utils/Icons'
+import { LOGO, FACEBOOK, NAVER, KAKAOTALK } from '../utils/Icons'
 import { colors } from '../utils/Styles'
 
 export default class App extends Component {
@@ -89,8 +91,8 @@ export default class App extends Component {
                                 axios.post('http://192.168.0.100:9001/api/login', {
                                   email: this.state.email,
                                   password: this.state.password
-                                }).then( async () => {
-                                  await AsyncStorage.setItem('userToken', 'abc');
+                                }).then( async (res) => {
+                                  await AsyncStorage.setItem('res.data.userToken', res.data.token);
                                   this.props.navigation.navigate('Main');
                                   console.log(`code:` + res.data.code);
                                   console.log(`message:` + res.data.message);
@@ -110,9 +112,20 @@ export default class App extends Component {
                       >
                           <Text style={styles.txtForgotPw}>Forgot password?</Text>
                       </TouchableOpacity>
-                      <View style={styles.btnLoginOther}>
+                        <View style={styles.btnLoginOtherWrapper}>
+                          <TouchableOpacity onPress={() => { 
+                            FacebookLogin();
+                          }}>
+                            <Image source={ FACEBOOK } style={styles.btnLoginOther}/>
+                          </TouchableOpacity>
+                          <TouchableOpacity>
+                            <Image source={ NAVER } style={styles.btnLoginOther}/>
+                          </TouchableOpacity>
+                          <TouchableOpacity>
+                            <Image source={ KAKAOTALK } style={styles.btnLoginOther}/>
+                          </TouchableOpacity>
+                        </View>
 
-                      </View>
                       <Text style={styles.txtCopyright}>Copyright by platcube.com</Text>
                       </View>
                   </View>
@@ -166,7 +179,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     marginTop: 260,
-    width: '78%',
+    width: '78%',width: '78%',
     height: 300,
     alignSelf: 'center',
 
@@ -242,17 +255,27 @@ const styles = StyleSheet.create({
     color: colors.dodgerBlue,
     textDecorationLine: 'underline',
   },
-  btnLoginOther: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  btnLoginOtherWrapper: {
+    position: 'relative',
+    width: '52%',
+    height: 68,
+    alignSelf: 'center',
 
-    width: 24,
-    height: 24,
-    marginLeft: 4,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  btnLoginOther: {
+    alignSelf: 'stretch',
+
+    width: 36,
+    height: 36,
+
+    marginTop: 28,
+
   },
 
   txtCopyright: {
-    marginTop: 80,
+    marginTop: 28,
     fontSize: 12,
     color: colors.cloudyBlue,
   },
