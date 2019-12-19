@@ -1,13 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-
-
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -18,11 +8,22 @@ import {
   StatusBar,
 } from 'react-native';
 
-export default class App extends Component {
+import { Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import { Container, Content, Icon } from 'native-base';
+import CardComponent from './shared/CardComponent';
+
+export default class Chatroom extends Component {
+  static navigationOptions = {
+    title: '크레인 커뮤니티',
+    headerLeft:<MaterialCommunityIcons name='crane' size={32} style={{ padding:10 }}/>,
+  }
+
   render() {
       return (
               <View style={styles.container}>
-                <Text>>Chatroom....</Text>
+                <Content>
+                    <CardComponent />
+                </Content>
               </View>
       );
   };
@@ -32,7 +33,6 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
+    backgroundColor: 'white',
   }
 });
