@@ -6,85 +6,57 @@ import axios from 'axios';
 
 export default class CardCompnent extends Component{
   render(){
+    const { data } = this.props; // 피드 항목 데이터
+    const { image } = JSON.parse(data.json_metadata);
     return (
-      <>
       <Card>
         <CardItem>
           <Left>
-            <Thumbnail source={{ CRANEHOOK }} />
+            <Thumbnail source={{ uri: `https://steemitimages.com/u/${data.author}/avatar` }} />
             <Body>
-              <Text>rednjzz</Text>
-              <Text note>Jan 21, 2019</Text>
+              <Text>{data.author}</Text>
+              <Text note>{new Date(data.created).toDateString()}</Text>
             </Body>
           </Left>
         </CardItem>
-        <CardItem cardBody>
-          <Image 
-            source={{ uri: 'http://192.168.0.100:8001/img/157231340529315741621822741576672770453.gif' }} 
-            style={{ maxHeight: 500 , height:300, width:null, flex: 1 }} />
+        {
+          image && image.length ?
+          <CardItem cardBody>
+            <Image 
+              source={{ uri: image[0] }} 
+              style={{ height:200, width:null, flex: 1 }} />
+          </CardItem> : null
+        }
+        <CardItem style={{ height: 20 }}>
+          <Text>{ data.active_votes.length } likes</Text>
+        </CardItem>
+        <CardItem>
+          <Text style={{ fontWeight:'900'}}>{ data.title }</Text>
+        </CardItem>
+        <CardItem>
+          <Text>
+          { data.body.replace(/\n/g,' ').slice(0, 200) }
+          </Text>
         </CardItem>
         <CardItem style={{ height:45 }}>
           <Left>
             <Button transparent>
-              <Icon name='ios-heart' style={{ color:'black' }}/>
+              <Icon name='ios-heart' style={{ color:'black', marginRight: 5 }}/> 
+              <Text>{ data.active_votes.length }</Text>
             </Button>
             <Button transparent>
-              <Icon name='ios-chatbubbles' style={{ color:'black' }}/>
+              <Icon name='ios-chatbubbles' style={{ color:'black', marginRight: 5 }}/>
+              <Text>{ data.children }</Text>
             </Button>
             <Button transparent>
               <Icon name='ios-send' style={{ color:'black' }}/>
             </Button>
           </Left>
+          <Right>
+            <Text>{ data.pending_payout_value }</Text>
+          </Right>
         </CardItem>
-        <CardItem style={{ height: 20 }}>
-          <Text>101 likes</Text>
-        </CardItem>
-        <CardItem>
-          <Text>
-            <Text style={{ fontWeight:'900'}}>rednjzz</Text>
-              #test2
-            </Text>
-          </CardItem>
-        </Card>
-         <Card>
-         <CardItem>
-           <Left>
-             <Thumbnail source={{ CRANEHOOK }} />
-             <Body>
-               <Text>rednjzz</Text>
-               <Text note>Jan 21, 2019</Text>
-             </Body>
-           </Left>
-         </CardItem>
-         <CardItem cardBody>
-           <Image 
-             source={{ uri: 'http://192.168.0.100:8001/img/15763230930061576658731585.gif' }} 
-             style={{ height:300, width:null, flex: 1 }} />
-         </CardItem>
-         <CardItem style={{ height:45 }}>
-           <Left>
-             <Button transparent>
-               <Icon name='ios-heart' style={{ color:'black' }}/>
-             </Button>
-             <Button transparent>
-               <Icon name='ios-chatbubbles' style={{ color:'black' }}/>
-             </Button>
-             <Button transparent>
-               <Icon name='ios-send' style={{ color:'black' }}/>
-             </Button>
-           </Left>
-         </CardItem>
-         <CardItem style={{ height: 20 }}>
-           <Text>101 likes</Text>
-         </CardItem>
-         <CardItem>
-           <Text>
-             <Text style={{ fontWeight:'900'}}>rednjzz</Text>
-               #민몸
-             </Text>
-           </CardItem>
-         </Card>
-         </>
+      </Card>
     );
   }
 }
