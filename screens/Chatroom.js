@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
+import axios from 'axios';
 
 import { Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import { Container, Content, Icon } from 'native-base';
@@ -18,23 +19,36 @@ export default class Chatroom extends Component {
     headerLeft:<MaterialCommunityIcons name='crane' size={32} style={{ padding:10 }}/>,
   }
   
-  fetchFeeds = async function() {
-    const data = {
-        id: 1,
-        jsonrpc: "2.0",
-        method: "call",
-        params: [
-          "database_api",
-          "get_discussions_by_created",
-          [{ tag: "kr", limit: 20 }]
-        ]
-    }; const res = await fetch(`https://api.steemit.com`, {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
-    const res_1 = await res.json();
-    return res_1.result;
-}
+//   fetchFeeds = async function() {
+//     const data = {
+//         id: 1,
+//         jsonrpc: "2.0",
+//         method: "call",
+//         params: [
+//           "database_api",
+//           "get_discussions_by_created",
+//           [{ tag: "kr", limit: 20 }]
+//         ]
+//     }; const res = await fetch(`https://api.steemit.com`, {
+//       method: 'POST',
+//       body: JSON.stringify(data)
+//     });
+//     const res_1 = await res.json();
+//     console.log(res_1);
+//     return res_1.result;
+// }
+
+    fetchFeeds = async function() {
+      // const res = await axios.get('http://192.168.0.100:9001/post');
+      // console.log(res.data);
+      const res = await fetch('http://192.168.0.100:9001/post', {
+        method: 'GET'
+      });
+
+      const res_1 = await res.json();
+      // console.log(res_1);
+      return res_1.twits;
+    }
 
 state = {
   feeds: []
